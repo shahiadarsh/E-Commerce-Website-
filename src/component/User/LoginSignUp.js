@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
@@ -9,10 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 
-const LoginSignUp = () => {
-  const navigate = useNavigate();
+const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const alert = useAlert();
 
   const { error, loading, isAuthenticated } = useSelector(
@@ -34,8 +32,8 @@ const LoginSignUp = () => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/logo512.png");
+  const [avatar, setAvatar] = useState("/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -46,13 +44,11 @@ const LoginSignUp = () => {
     e.preventDefault();
 
     const myForm = new FormData();
+
     myForm.set("name", name);
     myForm.set("email", email);
     myForm.set("password", password);
-    if (avatar) myForm.append("avatar", avatar);
-
-    console.log("Registering user with data:", myForm);
-
+    myForm.set("avatar", avatar);
     dispatch(register(myForm));
   };
 
@@ -63,7 +59,7 @@ const LoginSignUp = () => {
       reader.onload = () => {
         if (reader.readyState === 2) {
           setAvatarPreview(reader.result);
-          setAvatar(e.target.files[0]);
+          setAvatar(reader.result);
         }
       };
 
@@ -82,9 +78,9 @@ const LoginSignUp = () => {
     }
 
     if (isAuthenticated) {
-      navigate(redirect);
+      history.push(redirect);
     }
-  }, [dispatch, error, alert, navigate, isAuthenticated, redirect]);
+  }, [dispatch, error, alert, history, isAuthenticated, redirect]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

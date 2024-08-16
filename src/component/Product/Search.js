@@ -1,18 +1,16 @@
 import React, { useState, Fragment } from "react";
 import MetaData from "../layout/MetaData";
-import { useNavigate } from 'react-router-dom';
 import "./Search.css";
 
-const Search = () => {
+const Search = ({ history }) => {
   const [keyword, setKeyword] = useState("");
-  const navigate = useNavigate();
 
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      navigate(`/products/${keyword}`);
+      history.push(`/products/${keyword}`);
     } else {
-        navigate(`/products`);
+      history.push("/products");
     }
   };
 
@@ -27,7 +25,7 @@ const Search = () => {
         />
         <input type="submit" value="Search" />
       </form>
-    </Fragment>
+    </Fragment> 
   );
 };
 

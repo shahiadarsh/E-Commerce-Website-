@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useRef } from "react";
+import CheckoutSteps from "../Cart/CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layout/MetaData";
 import { Typography } from "@material-ui/core";
@@ -10,18 +11,16 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import "./payment.css";
+
 import axios from "axios";
+import "./payment.css";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import { useNavigate } from "react-router-dom";
-import { createOrder, clearErrors } from "../../actions/orderAction.js";
-import CheckoutSteps from "./CheckoutSteps.js";
+import { createOrder, clearErrors } from "../../actions/orderAction";
 
-const Payment = () => {
+const Payment = ({ history }) => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -48,6 +47,7 @@ const Payment = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     payBtn.current.disabled = true;
 
     try {
@@ -85,6 +85,7 @@ const Payment = () => {
 
       if (result.error) {
         payBtn.current.disabled = false;
+
         alert.error(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
@@ -94,7 +95,8 @@ const Payment = () => {
           };
 
           dispatch(createOrder(order));
-          navigate("/success");
+
+          history.push("/success");
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -117,7 +119,7 @@ const Payment = () => {
       <MetaData title="Payment" />
       <CheckoutSteps activeStep={2} />
       <div className="paymentContainer">
-        <form className="paymentForm" onSubmit={submitHandler}>
+        <form className="paymentForm" onSubmit={(e) => submitHandler(e)}>
           <Typography>Card Info</Typography>
           <div>
             <CreditCardIcon />

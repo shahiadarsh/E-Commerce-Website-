@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import MetaData from "../layout/MetaData";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import SideBar from "./Sidebar";
 import {
@@ -16,8 +16,7 @@ import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
 
-const ProcessOrder = () => {
-  const params = useParams();
+const ProcessOrder = ({ history, match }) => {
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
 
@@ -28,7 +27,7 @@ const ProcessOrder = () => {
 
     myForm.set("status", status);
 
-    dispatch(updateOrder(params.id, myForm));
+    dispatch(updateOrder(match.params.id, myForm));
   };
 
   const dispatch = useDispatch();
@@ -50,8 +49,8 @@ const ProcessOrder = () => {
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
-    dispatch(getOrderDetails(params.id));
-  }, [dispatch, alert, error, params.id, isUpdated, updateError]);
+    dispatch(getOrderDetails(match.params.id));
+  }, [dispatch, alert, error, match.params.id, isUpdated, updateError]);
 
   return (
     <Fragment>

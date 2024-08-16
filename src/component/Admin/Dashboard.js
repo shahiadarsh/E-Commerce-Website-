@@ -3,7 +3,6 @@ import Sidebar from "./Sidebar.js";
 import "./dashboard.css";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import "chart.js/auto";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import { getAdminProduct } from "../../actions/productAction";
@@ -48,7 +47,7 @@ const Dashboard = () => {
         label: "TOTAL AMOUNT",
         backgroundColor: ["tomato"],
         hoverBackgroundColor: ["rgb(197, 72, 49)"],
-        data: [0, 4000],
+        data: [0, totalAmount],
       },
     ],
   };
@@ -59,7 +58,7 @@ const Dashboard = () => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock,products.length-outOfStock],
+        data: [outOfStock, products.length - outOfStock],
       },
     ],
   };
@@ -75,8 +74,7 @@ const Dashboard = () => {
         <div className="dashboardSummary">
           <div>
             <p>
-              Total Amount <br />
-               ₹{totalAmount}
+              Total Amount <br /> ₹{totalAmount}
             </p>
           </div>
           <div className="dashboardSummaryBox2">

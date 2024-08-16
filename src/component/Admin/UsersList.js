@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -12,9 +12,7 @@ import SideBar from "./Sidebar";
 import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction";
 import { DELETE_USER_RESET } from "../../constants/userConstants";
 
-const UsersList = () => {
-  const navigate = useNavigate();
-  const params = useParams();
+const UsersList = ({ history }) => {
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -44,12 +42,12 @@ const UsersList = () => {
 
     if (isDeleted) {
       alert.success(message);
-      navigate("/admin/users");
+      history.push("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }
 
     dispatch(getAllUsers());
-  }, [dispatch, alert, error, deleteError, navigate, isDeleted, message]);
+  }, [dispatch, alert, error, deleteError, history, isDeleted, message]);
 
   const columns = [
     { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },

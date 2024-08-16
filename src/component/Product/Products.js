@@ -1,19 +1,17 @@
-import React, { Fragment, useEffect ,useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./Products.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
 import ProductCard from "../Home/ProductCard";
-import { useAlert } from "react-alert";
-import { useParams } from "react-router-dom";
-import  Pagination  from "react-js-pagination";
+import Pagination from "react-js-pagination";
 import Slider from "@material-ui/core/Slider";
+import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
-import MetaData from  "../layout/MetaData";
-
+import MetaData from "../layout/MetaData";
 
 const categories = [
-  "laptop",
+  "Laptop",
   "Footwear",
   "Bottom",
   "Tops",
@@ -22,9 +20,7 @@ const categories = [
   "SmartPhones",
 ];
 
-
-const Products = () => {
-  const params = useParams();
+const Products = ({ match }) => {
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -44,7 +40,7 @@ const Products = () => {
     filteredProductsCount,
   } = useSelector((state) => state.products);
 
-  const keyword = params.keyword;
+  const keyword = match.params.keyword;
 
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);
@@ -61,8 +57,8 @@ const Products = () => {
       dispatch(clearErrors());
     }
 
-    dispatch(getProduct(keyword,currentPage,price,category,ratings));
-  }, [dispatch, alert, error,keyword,currentPage,price,category,ratings]);
+    dispatch(getProduct(keyword, currentPage, price, category, ratings));
+  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
 
   return (
     <Fragment>
@@ -70,7 +66,7 @@ const Products = () => {
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title={`${products.name} -- ECOMMERCE`} />
+          <MetaData title="PRODUCTS -- ECOMMERCE" />
           <h2 className="productsHeading">Products</h2>
 
           <div className="products">
@@ -135,7 +131,7 @@ const Products = () => {
                 activeLinkClass="pageLinkActive"
               />
             </div>
-            )} 
+          )}
         </Fragment>
       )}
     </Fragment>

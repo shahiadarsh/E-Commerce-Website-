@@ -7,7 +7,7 @@ import {
   getAdminProduct,
   deleteProduct,
 } from "../../actions/productAction";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -16,9 +16,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
 import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
 
-const ProductList = () => {
-  const navigate = useNavigate();
-  const params = useParams();
+const ProductList = ({ history }) => {
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -46,12 +44,12 @@ const ProductList = () => {
 
     if (isDeleted) {
       alert.success("Product Deleted Successfully");
-      navigate("/admin/dashboard");
+      history.push("/admin/dashboard");
       dispatch({ type: DELETE_PRODUCT_RESET });
     }
 
     dispatch(getAdminProduct());
-  }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
+  }, [dispatch, alert, error, deleteError, history, isDeleted]);
 
   const columns = [
     { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },

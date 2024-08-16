@@ -15,11 +15,8 @@ import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "./Sidebar";
 import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
-import { useNavigate, useParams } from "react-router-dom";
 
-const UpdateProduct = () => {
-  const params = useParams();
-  const navigate = useNavigate();
+const UpdateProduct = ({ history, match }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -50,7 +47,7 @@ const UpdateProduct = () => {
     "SmartPhones",
   ];
 
-  const productId = params.id;
+  const productId = match.params.id;
 
   useEffect(() => {
     if (product && product._id !== productId) {
@@ -75,14 +72,14 @@ const UpdateProduct = () => {
 
     if (isUpdated) {
       alert.success("Product Updated Successfully");
-      navigate("/admin/products");
+      history.push("/admin/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
   }, [
     dispatch,
     alert,
     error,
-    navigate,
+    history,
     isUpdated,
     productId,
     product,

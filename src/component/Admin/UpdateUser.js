@@ -14,11 +14,8 @@ import {
   clearErrors,
 } from "../../actions/userAction";
 import Loader from "../layout/Loader/Loader";
-import { useNavigate, useParams } from "react-router-dom";
 
-const UpdateUser = () => {
-  const navigate = useNavigate();
-  const params = useParams();
+const UpdateUser = ({ history, match }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -34,7 +31,7 @@ const UpdateUser = () => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
-  const userId = params.id;
+  const userId = match.params.id;
 
   useEffect(() => {
     if (user && user._id !== userId) {
@@ -56,10 +53,10 @@ const UpdateUser = () => {
 
     if (isUpdated) {
       alert.success("User Updated Successfully");
-      navigate("/admin/users");
+      history.push("/admin/users");
       dispatch({ type: UPDATE_USER_RESET });
     }
-  }, [dispatch, alert, error, navigate, isUpdated, updateError, user, userId]);
+  }, [dispatch, alert, error, history, isUpdated, updateError, user, userId]);
 
   const updateUserSubmitHandler = (e) => {
     e.preventDefault();

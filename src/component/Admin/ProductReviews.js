@@ -15,10 +15,8 @@ import Star from "@material-ui/icons/Star";
 
 import SideBar from "./Sidebar";
 import { DELETE_REVIEW_RESET } from "../../constants/productConstants";
-import { useNavigate } from "react-router-dom";
 
-const ProductReviews = () => {
-  const navigate = useNavigate();
+const ProductReviews = ({ history }) => {
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -58,10 +56,10 @@ const ProductReviews = () => {
 
     if (isDeleted) {
       alert.success("Review Deleted Successfully");
-      navigate("/admin/reviews");
+      history.push("/admin/reviews");
       dispatch({ type: DELETE_REVIEW_RESET });
     }
-  }, [dispatch, alert, error, deleteError, navigate, isDeleted, productId]);
+  }, [dispatch, alert, error, deleteError, history, isDeleted, productId]);
 
   const columns = [
     { field: "id", headerName: "Review ID", minWidth: 200, flex: 0.5 },

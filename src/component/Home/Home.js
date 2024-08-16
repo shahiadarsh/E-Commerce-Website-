@@ -1,25 +1,17 @@
 import React, { Fragment, useEffect } from "react";
-import { CgMouse } from "react-icons/cg";
+import { CgMouse } from "react-icons/all";
 import "./Home.css";
-import Product from "./ProductCard.js";
-// import productImage from "../../images/Appstore.png"
+import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
+import { clearErrors, getProduct } from "../../actions/productAction";
+import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/Loader/Loader";
-import { getProduct,clearErrors } from "../../actions/productAction.js";
-import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-
-// const product = {
-//     name:"blue shirt",
-//     images:[{url: productImage}],
-//     price:"3000",
-//     _id:"adarsh",
-// }
 
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const {products,loading,error} = useSelector((state) => state.products);
+  const { loading, error, products } = useSelector((state) => state.products);
 
   useEffect(() => {
     if (error) {
@@ -27,13 +19,14 @@ const Home = () => {
       dispatch(clearErrors());
     }
     dispatch(getProduct());
-  },[dispatch,error,alert]);
+  }, [dispatch, error, alert]);
 
   return (
     <Fragment>
-      {
-        loading ? (<Loader />) : (
-          <Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
           <MetaData title="ECOMMERCE" />
 
           <div className="banner">
@@ -50,13 +43,13 @@ const Home = () => {
           <h2 className="homeHeading">Featured Products</h2>
 
           <div className="container" id="container">
-            {
-              products && products.map((product) => (<Product product={product} />))
-            }
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
           </div>
         </Fragment>
-        )
-      }
+      )}
     </Fragment>
   );
 };
