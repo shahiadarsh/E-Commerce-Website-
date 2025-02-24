@@ -90,8 +90,6 @@ This is a React-based e-commerce application with authentication, admin, shoppin
 
 ## **License** 📄
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## **Contact** 📧
 
 - **Name:** Adarsh shahi  
