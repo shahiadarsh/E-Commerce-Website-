@@ -88,4 +88,11 @@ This is a React-based e-commerce application with authentication, admin, shoppin
 4. Push to the branch (`git push origin feature-branch`).
 5. Open a Pull Request.
 
-## License
+## **License** 📄
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## **Contact** 📧
+
+- **Name:** Adarsh shahi  
+- **Email:** shahiadarsh7675@gmail.com
